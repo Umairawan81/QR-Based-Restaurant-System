@@ -1,0 +1,71 @@
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <title>Confirmed Order</title>
+</head>
+<body>
+  
+  <br>
+    <div class="container  mt-2 mx-3">
+        <a href="{{ request.META.HTTP_REFERER }}" class="btn me-2 custom-button"> &lArr; Back </a>
+    </div>
+  <div class="container">
+    <center> <h1>Confirmed Order</h1> </center>
+    {% if order_by_table %}
+        {% for table_no, orders in order_by_table.items %}
+            <div class="card">
+                <div class="card-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Item Name</th>
+                                <th scope="col">Quantity</th>
+                                <th scope="col">Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <h5 class="card-header d-flex justify-content-between align-items-center">Order of Table no. {{ table_no }} 
+                                <a href="{% url 'comp'  table_no %}">
+                                    <button class="btn btn-dark">Done</button> 
+                                 </a>
+                            </h5>
+                            {% for o in orders %}
+                                <tr>
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td>{{ o.items }}</td>
+                                    <td>{{ o.quantity }}</td>
+                                    <td>{{ o.price }}</td>
+                                </tr>
+                            {% endfor %}
+                            
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            No orders found.
+        </div>
+    {% endif %}
+</div>
+
+
+
+
+
+
+<script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    
+</body>
+</html>
+
